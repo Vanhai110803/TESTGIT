@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Products</title>
+  <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+  <h1>Multi-language Products</h1>
+  <form method="get" th:action="@{/products}">
+    <label>Language:
+      <select name="lang" th:value="${lang}" onchange="this.form.submit()">
+        <option th:each="l: ${languages}"
+                th:value="${l.languageID}"
+                th:selected="${l.languageID==lang}"
+                th:text="${l.language}">en</option>
+      </select>
+    </label>
+  </form>
+  <a th:href="@{|/products/new?lang=${lang}|}" class="btn">+ New product</a>
+</header>
+
+<table>
+  <thead>
+    <tr><th>ID</th><th th:text="'Name (' + ${lang} + ')'">Name</th><th>Category</th><th>Price</th><th>Weight</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+  <tr th:each="p: ${items}">
+    <td th:text="${p.id}">1</td>
+    <td th:text="${p.name}">Paracetamol</td>
+    <td th:text="${p.categoryName}">OTC</td>
+    <td th:text="${#numbers.formatDecimal(p.price,1,2)}">10.00</td>
+    <td th:text="${p.weight}">0.10</td>
+    <td th:text="${p.description}">desc</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
